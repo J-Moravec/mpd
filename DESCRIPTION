@@ -1,0 +1,22 @@
+Package: mpd
+Title: Minimal Package Development
+Version: 0.0.1
+Authors@R:
+    person(
+        given = "Jiří",
+        family = "Moravec",
+        role = c("aut", "cre"),
+        email = "jiri.c.moravec@gmail.com"
+        )
+Description: A Minimal tools for package development to provide a minimal, but convenient
+    wrapper to mostly base package development tools.
+License: MIT + file LICENSE
+Encoding: UTF-8
+RoxygenNote: 7.3.2
+URL: https://github.com/j-moravec/mpd
+BugReports: https://github.com/j-moravec/mpd/issues
+Imports:
+    tools,
+    utils
+Suggests:
+    roxygen2
