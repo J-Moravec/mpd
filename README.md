@@ -20,11 +20,18 @@ install.packages("https://github.com/J-Moravec/mpd/archive/refs/heads/master.zip
 install.packages("https://github.com/J-Moravec/mpd/archive/refs/heads/master.tar.gz", repos = NULL)
 ```
 
-or use packages such as `devtools` (talk about bootstrapping):
+or use packages such as `remotes`:
 
 ```
-devtools::install_github("J-Moravec/mpd")
+remotes::install_github("J-Moravec/mpd")
 ```
+
+Or, to update to the latest dev version of `mpd`, you can use:
+
+```
+mpd::install_github("J-Moravec/mpd")
+```
+
 
 ## Limitations
 
