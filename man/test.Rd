@@ -4,6 +4,7 @@
 \alias{test}
 \alias{check}
 \alias{document}
+\alias{install}
 \title{Minimal package development functions}
 \usage{
 test(pkg = ".")
@@ -11,6 +12,8 @@ test(pkg = ".")
 check(pkg = ".", as_cran = FALSE)
 
 document(pkg = ".")
+
+install(pkg = ".")
 }
 \arguments{
 \item{pkg}{a path to the package directory}
@@ -29,6 +32,9 @@ some unit-testing framework in that they need to be able to be run outside of `R
 in the sense that they must report an error if the test fail, as the `Rout.save` snapshot
 testing isn't supported when you just run the files in the `test` folder.
 
-The `check()` maps to the `R CMD check` and `document()` runs the `roxygen2::roxygenize`
-function to generate documentation.
+The `check()` maps to the `R CMD check`.
+
+The `document()` runs the `roxygen2::roxygenize` function to generate documentation.
+
+The `install()` installs the package locally.
 }

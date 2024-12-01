@@ -2,6 +2,7 @@
 
 export(check)
 export(document)
+export(install)
 export(install_github)
 export(pkg_build)
 export(pkg_check)

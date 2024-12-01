@@ -7,8 +7,11 @@
 #' in the sense that they must report an error if the test fail, as the `Rout.save` snapshot
 #' testing isn't supported when you just run the files in the `test` folder.
 #'
-#' The `check()` maps to the `R CMD check` and `document()` runs the `roxygen2::roxygenize`
-#' function to generate documentation.
+#' The `check()` maps to the `R CMD check`.
+#'
+#' The `document()` runs the `roxygen2::roxygenize` function to generate documentation.
+#'
+#' The `install()` installs the package locally.
 #'
 #' @param pkg a path to the package directory
 #' @param as_cran run the `R CMD check` with the CRAN preset (internet connection required)
@@ -59,4 +62,21 @@ document = function(pkg = "."){
         stop("package roxygen2 required")
 
     roxygen2::roxygenize(pkg)
+    }
+
+
+#' @rdname test
+#' @export
+install = function(pkg = "."){
+    pkg_name = pkg_name(pkg)
+
+    # remove package from search path if its already there
+    if(paste0("package:", pkg_name) %in% search())
+        detach(paste0("package:", pkg_name), unload = TRUE, force = TRUE, character.only = TRUE)
+
+    # remove package from loaded namespaces
+    if(isNamespaceLoaded(pkg_name))
+        unloadNamespace(pkg_name)
+
+    utils::install.packages(pkg, repos = NULL, clean = TRUE)
     }
