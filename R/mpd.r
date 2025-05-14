@@ -33,8 +33,7 @@ test = function(pkg = "."){
     if(paste0("package:", pkg_name) %in% search())
         detach(paste0("package:", pkg_name), unload = TRUE, force = TRUE, character.only = TRUE)
 
-    test_files = list.files(file.path(pkg, "tests"), full.names = TRUE)
-    test_files = Filter(function(x) utils::file_test("-f", x), test_files)
+    test_files = list.files(file.path(pkg, "tests"), full.names = TRUE, pattern = "\\.[rR]$")
 
     # run the code inside pkg environment
     env = new.env(parent = getNamespace(pkg_name))
