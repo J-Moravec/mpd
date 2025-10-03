@@ -13,10 +13,7 @@ by using as much base R as possible (except for the `roxygen2` package).
 Currently, `mpd` lives on github. To install `mpd`, type:
 
 ```
-# on Windows
-install.packages("https://github.com/J-Moravec/mpd/archive/refs/heads/master.zip", repos = NULL)
 
-# on Linux
 install.packages("https://github.com/J-Moravec/mpd/archive/refs/heads/master.tar.gz", repos = NULL)
 ```
 

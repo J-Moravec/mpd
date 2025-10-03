@@ -4,7 +4,7 @@
 #'
 #' This functions wraps `utils::install.packages(url, repos = NULL)` which allows
 #' installing packages directly from the `url`, provided it has correct format
-#' (tarball or zipball, see details). This means that the package dependencies
+#' (tarball). This means that the package dependencies
 #' are not installed, see the `repos` option in `?install_packages` for more details.
 #'
 #' Another limitation is that the package must be at the very root of the repository.
@@ -17,15 +17,9 @@
 #' If this fails for some reason, or you wish to not make an extra request, specify the branch
 #' manually.
 #'
-#' The `archive` parameter specifies which archive is downloaded: either tarball `tar.gz`
-#' or zipball `zip`. [utils::install.packages()] requires `zip` for Windows and `tar.gz`
-#' for Unix (and Linux). The OS is read from `.Platform$OS.type` (see `?.Plaftorm`).
-#'
 #' @param x input in the form of owner/repo, such as `J-Moravec/mpd`.
 #' @param branch **optional** a git branch to download the repo from, if not specified,
 #' additional http request is performed to retrieve the default branch from metadata.
-#' @param archive **optional** type or archive to download, depending on your operating system
-#' one of `zip` (Windows) or `tar.gz` (Unix, Linux, Mac).
 #' @return Invisible `NULL`
 #'
 #' @seealso
@@ -39,7 +33,7 @@
 #' }
 #'
 #' @export
-install_github = function(x, branch = NULL, archive = NULL){
+install_github = function(x, branch = NULL){
     x = strsplit(x, split = "/", fixed = TRUE)[[1]]
     if(length(x) < 2)
         stop("x is malformed, must be in the form of \"owner/repo\"")
@@ -47,18 +41,13 @@ install_github = function(x, branch = NULL, archive = NULL){
     owner = x[1]
     repo = x[2]
 
-    if(is.null(archive)){
-        archive = if(.Platform$OS.type == "windows") "zip" else "tar.gz"
-        }
-    archive = match.arg(archive, c("zip", "tar.gz"))
-
     if(is.null(branch)){
         branch = github_detect_main_branch(owner, repo)
         }
 
     github_url = "https://github.com"
     url = paste(github_url, owner, repo, "archive/refs/heads", branch, sep = "/")
-    invisible(utils::install.packages(paste0(url, ".", archive), repos = NULL))
+    invisible(utils::install.packages(paste0(url, ".tar.gz"), repos = NULL))
     }
 
 
