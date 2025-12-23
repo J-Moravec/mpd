@@ -4,13 +4,15 @@
 \alias{install_github}
 \title{Install package from github}
 \usage{
-install_github(x, branch = NULL)
+install_github(x, dependencies = FALSE, branch = NULL)
 }
 \arguments{
 \item{x}{input in the form of owner/repo, such as `J-Moravec/mpd`.}
 
-\item{branch}{**optional** a git branch to download the repo from, if not specified,
+\item{dependencies}{**optional** install dependencies, see details
 additional http request is performed to retrieve the default branch from metadata.}
+
+\item{branch}{**optional** a git branch to download the repo from, if not specified,}
 }
 \value{
 Invisible `NULL`
@@ -21,12 +23,14 @@ A simple wrapper around [utils::install.packages()] to install packages from git
 \details{
 This functions wraps `utils::install.packages(url, repos = NULL)` which allows
 installing packages directly from the `url`, provided it has correct format
-(tarball). This means that the package dependencies
-are not installed, see the `repos` option in `?install_packages` for more details.
+(tarball).
 
-Another limitation is that the package must be at the very root of the repository.
+The limitation is that the package must be at the very root of the repository.
 For instance, if the package is inside the `pkg` folder of the repository (e.g., `tinytest`),
 the package cannot be installed.
+
+If `dependencies` is TRUE, `strong`, `most`, or `all`, the package dependencies will
+also be installed from CRAN, see [package_dependencies()].
 
 The `branch` parameter specified from which git branch is the package installed.
 If `branch = NULL` (the default), an extra request is performed through the github API

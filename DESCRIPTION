@@ -1,6 +1,6 @@
 Package: mpd
 Title: Minimal Package Development
-Version: 0.0.3
+Version: 0.0.4
 Authors@R:
     person(
         given = "Jiří",
@@ -12,7 +12,7 @@ Description: A Minimal tools for package development to provide a minimal, but c
     wrapper to mostly base package development tools.
 License: MIT + file LICENSE
 Encoding: UTF-8
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 URL: https://github.com/j-moravec/mpd
 BugReports: https://github.com/j-moravec/mpd/issues
 Imports:

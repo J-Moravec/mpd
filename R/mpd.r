@@ -15,16 +15,20 @@
 #'
 #' @param pkg a path to the package directory
 #' @param as_cran run the `R CMD check` with the CRAN preset (internet connection required)
+#' @param reset_lib reset the search path after exit (default: TRUE)
 #' @return nothing, these functions are run for their side-effect
 #'
 #' @export
-test = function(pkg = "."){
+test = function(pkg = ".", reset_lib = TRUE){
     pkg_name = pkg_name(pkg)
 
     # set local library
     tmp_lib = file.path(tempdir(), "r-lib")
     if(!dir.exists(tmp_lib)) dir.create(tmp_lib)
-    .libPaths(c(tmp_lib, .libPaths()))
+    lib = .libPaths()
+    .libPaths(c(tmp_lib, lib))
+    if(reset_lib)
+        on.exit(.libPaths(lib))
 
     # install pkg
     pkg_install(pkg, tmp_lib)

@@ -1,3 +1,8 @@
+# mpd 0.0.4
+
+* `install_github()` can now install dependencies of specified package
+* added `find_packages()`, `installed_packages()`, `package_dependencies()`
+
 # mpd 0.0.3
 
 * added `install()` for local installation

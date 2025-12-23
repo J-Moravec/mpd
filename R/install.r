@@ -4,12 +4,14 @@
 #'
 #' This functions wraps `utils::install.packages(url, repos = NULL)` which allows
 #' installing packages directly from the `url`, provided it has correct format
-#' (tarball). This means that the package dependencies
-#' are not installed, see the `repos` option in `?install_packages` for more details.
+#' (tarball).
 #'
-#' Another limitation is that the package must be at the very root of the repository.
+#' The limitation is that the package must be at the very root of the repository.
 #' For instance, if the package is inside the `pkg` folder of the repository (e.g., `tinytest`),
 #' the package cannot be installed.
+#'
+#' If `dependencies` is TRUE, `strong`, `most`, or `all`, the package dependencies will
+#' also be installed from CRAN, see [package_dependencies()].
 #'
 #' The `branch` parameter specified from which git branch is the package installed.
 #' If `branch = NULL` (the default), an extra request is performed through the github API
@@ -19,6 +21,7 @@
 #'
 #' @param x input in the form of owner/repo, such as `J-Moravec/mpd`.
 #' @param branch **optional** a git branch to download the repo from, if not specified,
+#' @param dependencies **optional** install dependencies, see details
 #' additional http request is performed to retrieve the default branch from metadata.
 #' @return Invisible `NULL`
 #'
@@ -33,7 +36,7 @@
 #' }
 #'
 #' @export
-install_github = function(x, branch = NULL){
+install_github = function(x, dependencies = FALSE, branch = NULL){
     x = strsplit(x, split = "/", fixed = TRUE)[[1]]
     if(length(x) < 2)
         stop("x is malformed, must be in the form of \"owner/repo\"")
@@ -47,7 +50,40 @@ install_github = function(x, branch = NULL){
 
     github_url = "https://github.com"
     url = paste(github_url, owner, repo, "archive/refs/heads", branch, sep = "/")
-    invisible(utils::install.packages(paste0(url, ".tar.gz"), repos = NULL))
+    url = paste0(url, ".tar.gz")
+
+    # no dependencies, early exit
+    if(isFALSE(dependencies)){
+        res = utils::install.packages(url, repos = NULL, type = "source")
+        return(invisible(res))
+        }
+
+    if(isTRUE(dependencies)) dependencies = "strong"
+    which = .package_dependencies_types(dependencies)
+    path = .download_package(url)
+    deps = unique(unlist(package_dependencies(path, which)))
+    deps = deps[!installed_packages(deps)]
+    utils::install.packages(deps)
+
+    res = utils::install.packages(path, repos = NULL, type = "source")
+    invisible(res)
+    }
+
+
+.download_package = function(url, destdir = NULL){
+    if(is.null(destdir))
+        destdir = file.path(tempdir(), "downloaded_packages")
+
+    if(!dir.exists(destdir) && !dir.create(destdir))
+        stop("Unable to create directory \"%s\"", destdir)
+
+    dest  = file.path(destdir, basename(url))
+    err = utils::download.file(url, dest, quiet = TRUE, mode = "wb")
+
+    if(0 != err)
+        stop("Download from url failed: %s", url)
+
+    dest
     }
 
 

@@ -7,7 +7,7 @@
 \alias{install}
 \title{Minimal package development functions}
 \usage{
-test(pkg = ".")
+test(pkg = ".", reset_lib = TRUE)
 
 check(pkg = ".", as_cran = FALSE)
 
@@ -17,6 +17,8 @@ install(pkg = ".")
 }
 \arguments{
 \item{pkg}{a path to the package directory}
+
+\item{reset_lib}{reset the search path after exit (default: TRUE)}
 
 \item{as_cran}{run the `R CMD check` with the CRAN preset (internet connection required)}
 }

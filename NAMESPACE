@@ -2,8 +2,11 @@
 
 export(check)
 export(document)
+export(find_packages)
 export(install)
 export(install_github)
+export(installed_packages)
+export(package_dependencies)
 export(pkg_build)
 export(pkg_check)
 export(pkg_install)
