@@ -81,5 +81,5 @@ install = function(pkg = "."){
     if(isNamespaceLoaded(pkg_name))
         unloadNamespace(pkg_name)
 
-    utils::install.packages(pkg, repos = NULL, clean = TRUE)
+    utils::install.packages(pkg, repos = NULL, clean = TRUE, type = "source")
     }
