@@ -12,7 +12,6 @@ Description: A Minimal tools for package development to provide a minimal, but c
     wrapper to mostly base package development tools.
 License: MIT + file LICENSE
 Encoding: UTF-8
-RoxygenNote: 7.3.3
 URL: https://github.com/j-moravec/mpd
 BugReports: https://github.com/j-moravec/mpd/issues
 Imports:
@@ -20,3 +19,4 @@ Imports:
     utils
 Suggests:
     roxygen2
+Config/roxygen2/version: 8.0.0

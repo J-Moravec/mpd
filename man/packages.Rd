@@ -5,6 +5,7 @@
 \alias{find_packages}
 \alias{installed_packages}
 \alias{package_dependencies}
+\alias{install_dependencies}
 \title{Local package paths and dependencies}
 \usage{
 find_packages(x)
@@ -12,16 +13,22 @@ find_packages(x)
 installed_packages(x)
 
 package_dependencies(x, which = "strong")
+
+install_dependencies(pkg = ".", which = "strong")
 }
 \arguments{
 \item{x}{for `find_packages()`, `installed_packages()` a character vector of package names,
 for `package_dependencies()` a character vector of package names, local directories,
 or a path to tarballs.}
 
-\item{which}{for `package_dependencies()` which dependencies to return, see details}
+\item{which}{for `package_dependencies()` and `install_dependencies()` which dependencies
+to return or install, see details}
 }
 \value{
-a named logical vector
+`find_packages()` returns a named character vector of paths for given packages,
+`installed_packages()` returns a named logical vector,
+`package_dependencies()` returns a list of the same length as its input,
+and `install_dependencies` doesn't have a return value.
 }
 \description{
 Find locally installed packages and their dependencies
@@ -50,13 +57,16 @@ This is done by parsing the DESCRIPTION file and extracting the `Depends`, `Impo
 `LinkingTo`, and `Enhances` fields.
 Unlike [tools::package_dependencies()], it works only with locally available packages
 and it doesn't explore CRAN or require internet access, but works on packages
-that are not available on CRAN..
+that are not available on CRAN.
 `package_dependencies()` returns a list with the same name as input, with each element
 being a character vector of package dependencies.
 
 The `which` argument for `package_dependencies()` can be one or more of the dependency types
-(`Depends`, `Imports`, `LinkingTo`, `Enhances`), or `strong` for the first three types,
-`most` for the first four types, or `all` for all dependency types.
+(`Depends`, `Imports`, `LinkingTo`, `Suggests`, `Enhances`), or `strong` for
+the first three, `most` adds `Suggests`, and `all` includes `Enhances` as well.
+
+`install_dependencies()` obtain dependencies from `package_dependencies()` and then
+installs them using `utils::install.packages()`.
 }
 \examples{
 find_packages(c("base", "mpd", "not even valid name"))

@@ -16,6 +16,7 @@
 #' @param pkg a path to the package directory
 #' @param as_cran run the `R CMD check` with the CRAN preset (internet connection required)
 #' @param reset_lib reset the search path after exit (default: TRUE)
+#' @param dependencies type of dependencies to be installed, see [install_dependencies()]
 #' @return nothing, these functions are run for their side-effect
 #'
 #' @export
@@ -70,8 +71,11 @@ document = function(pkg = "."){
 
 #' @rdname test
 #' @export
-install = function(pkg = "."){
+install = function(pkg = ".", dependencies = "strong"){
     pkg_name = pkg_name(pkg)
+
+    if(!is.null(dependencies))
+        install_dependencies(pkg, which = dependencies)
 
     # remove package from search path if its already there
     if(paste0("package:", pkg_name) %in% search())

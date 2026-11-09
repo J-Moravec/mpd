@@ -25,19 +25,27 @@
 #' `LinkingTo`, and `Enhances` fields.
 #' Unlike [tools::package_dependencies()], it works only with locally available packages
 #' and it doesn't explore CRAN or require internet access, but works on packages
-#' that are not available on CRAN..
+#' that are not available on CRAN.
 #' `package_dependencies()` returns a list with the same name as input, with each element
 #' being a character vector of package dependencies.
 #'
 #' The `which` argument for `package_dependencies()` can be one or more of the dependency types
-#' (`Depends`, `Imports`, `LinkingTo`, `Enhances`), or `strong` for the first three types,
-#' `most` for the first four types, or `all` for all dependency types.
+#' (`Depends`, `Imports`, `LinkingTo`, `Suggests`, `Enhances`), or `strong` for
+#' the first three, `most` adds `Suggests`, and `all` includes `Enhances` as well.
+#'
+#' `install_dependencies()` obtain dependencies from `package_dependencies()` and then
+#' installs them using `utils::install.packages()`.
 #'
 #' @param x for `find_packages()`, `installed_packages()` a character vector of package names,
 #'          for `package_dependencies()` a character vector of package names, local directories,
 #'          or a path to tarballs.
-#' @param which for `package_dependencies()` which dependencies to return, see details
-#' @return a named logical vector
+#' @param which for `package_dependencies()` and `install_dependencies()` which dependencies
+#' to return or install, see details
+#' @return
+#' `find_packages()` returns a named character vector of paths for given packages,
+#' `installed_packages()` returns a named logical vector,
+#' `package_dependencies()` returns a list of the same length as its input,
+#' and `install_dependencies` doesn't have a return value.
 #'
 #' @seealso
 #' [utils::installed.packages()] for a database of all installed packages,
@@ -112,6 +120,15 @@ package_dependencies = function(x, which = "strong"){
         stop("Some packages were not found locally: ", toString(not_found))
 
     deps
+    }
+
+
+#' @rdname packages
+#' @export
+install_dependencies = function(pkg = ".", which = "strong"){
+    deps = package_dependencies(pkg, which = which)[[1]]
+    deps = deps[!installed_packages(deps)]
+    if(length(deps) > 0) utils::install.packages(deps)
     }
 
 

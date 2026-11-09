@@ -13,7 +13,7 @@ check(pkg = ".", as_cran = FALSE)
 
 document(pkg = ".")
 
-install(pkg = ".")
+install(pkg = ".", dependencies = "strong")
 }
 \arguments{
 \item{pkg}{a path to the package directory}
@@ -21,6 +21,8 @@ install(pkg = ".")
 \item{reset_lib}{reset the search path after exit (default: TRUE)}
 
 \item{as_cran}{run the `R CMD check` with the CRAN preset (internet connection required)}
+
+\item{dependencies}{type of dependencies to be installed, see [install_dependencies()]}
 }
 \value{
 nothing, these functions are run for their side-effect

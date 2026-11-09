@@ -59,9 +59,8 @@ install_github = function(x, dependencies = FALSE, branch = NULL){
         }
 
     if(isTRUE(dependencies)) dependencies = "strong"
-    which = .package_dependencies_types(dependencies)
     path = .download_package(url)
-    deps = unique(unlist(package_dependencies(path, which)))
+    deps = unique(unlist(package_dependencies(path, dependencies)))
     deps = deps[!installed_packages(deps)]
     utils::install.packages(deps)
 
